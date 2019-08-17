@@ -1,0 +1,1197 @@
+.data
+menu:      	 .asciiz "\nPlease choose one of the follwoing options: \nI-INITIALIZE reset all warehouses inventory to zero (0)\nR-RECEIVE an amount of a particular product in any of the warehouses\nS-SHIP an amount of a product from a warehouse\nT-TRANSFER an amount of a product from one warehouse to another\nO-OVERVIEW of total inventory count and calculate the total inventory cost\nP-PUBLISH a report showing the summary of inventory in each warehouse.\nX-EXIT \n"
+initailize: 	 .asciiz "\nReset all warehouses inventory to zero (0)"
+receive_message: .asciiz "\nPlease enter the product number, the warehouse number to be stored in and the quantity of the product:(one value at a time)"
+ship_message: 	 .asciiz "\nPlease enter the product number, the warehouse number and the quantity of the product to be shipped:(one value at a time)"
+trans_message: 	 .asciiz "\nPlease enter the product number , the warehouse number that you want to transfer from, the quantity and the warehouse that you want to transfer to:(one value at a time)"
+over_message: 	 .asciiz "\nPlease enter the cost for"
+total_quantity:  .asciiz "\nThe total inventory count of all products in all warehouses:"
+line: 		 .asciiz "\n"
+
+product1: 	.asciiz " Product 1:"
+product2: 	.asciiz " Product 2:"
+product3: 	.asciiz " Product 3:"
+product4: 	.asciiz " Product 4:"
+product5: 	.asciiz " Product 5:"
+product6: 	.asciiz " Product 6:"
+product7: 	.asciiz " Product 7:"
+product8: 	.asciiz " Product 8:"
+
+
+prod1Cost: 	.asciiz " \nProduct 1 total cost: "
+prod2Cost: 	.asciiz " \nProduct 2 total cost: "
+prod3Cost: 	.asciiz " \nProduct 3 total cost: "
+prod4Cost: 	.asciiz " \nProduct 4 total cost: "
+prod5Cost: 	.asciiz " \nProduct 5 total cost: "
+prod6Cost: 	.asciiz " \nProduct 6 total cost: "
+prod7Cost: 	.asciiz " \nProduct 7 total cost: "
+prod8Cost: 	.asciiz " \nProduct 8 total cost: "
+
+product_par: 		.asciiz ": "
+warehouse_string: 	.asciiz " \n warehouse "
+error: 			.asciiz "\n Input error, please try again.\n"
+errorLess: 		.asciiz "\n Insufficient number of products in warehouse please try again.\n"
+
+warehouse1Arr: 		.word 0:14 #Initializing an array with 14 elements 
+warehouse2Arr: 		.word 0:14 #Initializing an array with 14 elements
+warehouse3Arr: 		.word 0:14 #Initializing an array with 14 elements
+warehouse4Arr: 		.word 0:14 #Initializing an array with 14 elements
+warehouse5Arr: 		.word 0:14 #Initializing an array with 14 elements
+warehouse6Arr: 		.word 0:14 #Initializing an array with 14 elements
+warehouse7Arr: 		.word 0:14 #Initializing an array with 14 elements
+warehouse8Arr: 		.word 0:14 #Initializing an array with 14 elements
+
+
+
+.globl  main
+.text
+main:
+
+I:               	#User wants to initialize all elements to 0
+la $t0, warehouse1Arr      	#store address of warehouse1Arr in $t0
+li $t1, 0       	#$t1 = 0
+li $t2,0            
+
+while:
+sw $t2, 0($t0)          #warehouse1Arr[index] = 0
+beq $t1, 7 , end        #branch  if (index == 7) 
+addi $t1, $t1, 1        #increment index by 1
+sll $t3, $t1, 2         #access the next element in the array        
+add $t0, $t0, $t3       #$t0 contains the address of the next element
+j while               
+
+end:
+la $t0, warehouse2Arr        #store address of warehouse2Arr in $t0
+li $t1, 0        	#$t1(index) = 0
+li $t2,0
+
+while1:
+sw $t2, 0($t0)          # warehouse2Arr[index]=0
+beq $t1, 7 , end1       # branch if (index==7)
+addi $t1, $t1, 1        # increment index by 1
+sll $t3, $t1, 2         # access the next element in the array
+add $t0, $t0, $t3       # $t0 contains the address of the next element
+j while1                 
+
+end1:
+la $t0, warehouse3Arr        #store address of warehouse3Arr in $t0
+li $t1, 0               #$t1(index) = 0
+li $t2,0
+
+while2:
+sw $t2, 0($t0)          # warehouse3Arr[index]=0
+beq $t1, 7 , end2       # branch if (index == 7) 
+addi $t1, $t1, 1        # increment index by 1
+sll $t3, $t1, 2         # access the next element in the array
+add $t0, $t0, $t3       # $t0 contains the address of the next element in the array
+j while2                  
+
+end2:
+la $t0, warehouse4Arr        # store address of warehouse4Arr in $t0
+li $t1, 0               # initiliaze $t1(index)=0
+li $t2,0
+
+while3:
+sw $t2, 0($t0)          # warehouse4Arr[index]=0
+beq $t1, 7 , end3       # branch if (index == 7) 
+addi $t1, $t1, 1        # increment index by 1
+sll $t3, $t1, 2         # access the next element in the array
+add $t0, $t0, $t3       # $t0 contains the address of the next element in the array
+j while3                 
+
+end3:
+la $t0, warehouse5Arr        # store address of warehouse5Arr in $t0
+li $t1, 0               # initialize $t1(index)= 0
+li $t2,0
+
+while4:
+sw $t2, 0($t0)          # warehouse5Arr[index]=0
+beq $t1, 7 , end4       # branch if (index == 7) 
+addi $t1, $t1, 1        # increment index by 1
+sll $t3, $t1, 2         # access the next element in the array
+add $t0, $t0, $t3       # $t0 contains the address of the next element in the array
+j while4                
+
+end4:
+la $t0, warehouse6Arr        #store address of warehouse6Arr in $t0
+li $t1, 0               # initialize $t1(index) to 0
+li $t2,0
+
+while5:
+sw $t2, 0($t0)          # warehouse6Arr[index]=0
+beq $t1, 7 , end5       # branch if (index == 7)
+addi $t1, $t1, 1        # increment index by 1
+sll $t3, $t1, 2         # access the next element in the array
+add $t0, $t0, $t3       # $t0 contains the address of the next element in the array
+j while5                 
+
+end5:
+la $t0, warehouse7Arr        # store address of warehouse7Arr in $t0
+li $t1, 0               # initialize $t1(index) to 0
+li $t2,0
+
+while6:
+sw $t2, 0($t0)          #warehouse7Arr[index]=0
+beq $t1, 7 , end6       #branch if (index == 7) 
+addi $t1, $t1, 1        #increment index by 1
+sll $t3, $t1, 2         #access the next element in the array
+add $t0, $t0, $t3       #$t0 contains the address of the next element in the array
+j while6                 
+
+end6:
+la $t0, warehouse8Arr        #store address of warehouse8Arr in $t0
+li $t1, 0               #initialize  $t1(index) to 0
+li $t2,0
+
+while7:
+sw $t2, 0($t0)          # warehouse8Arr[index]=0
+beq $t1, 7 , dispMenu   # branch if (index == 7) 
+addi $t1, $t1, 1        # increment index by 1
+sll $t3, $t1, 2         # Access the next element in the array
+add $t0, $t0, $t3       #$t0 contains the address of the next element in the array
+j while7                # return to while loop 
+
+dispMenu:
+li $v0, 4                
+la $a0, menu
+syscall
+
+li $v0, 12               
+syscall
+                                 
+beq $v0, 'I', I		 #branch according to the user input/Validations 
+beq $v0, 'i', I
+beq $v0, 'R', R
+beq $v0, 'r', R
+beq $v0, 'S', S
+beq $v0, 's', S
+beq $v0, 'T', T
+beq $v0, 't', T
+beq $v0, 'O', O
+beq $v0, 'o', O
+beq $v0, 'P', P
+beq $v0, 'p', P
+beq $v0, 'X', exit
+beq $v0, 'x', exit
+
+j message_invalid     
+
+R:                           #User wants to recieve a quantity of a product at a warehouse
+li $v0, 4                    #print string
+la $a0, receive_message
+syscall
+
+li $v0, 5                     #read integer (product number)
+syscall 
+
+move $a0,$v0		      #store the value entered in $v0 to $a0
+beq $a0, 1, to_1              #if it is product1 then branch 
+beq $a0, 2, to_2              #if it is product2 then branch 
+beq $a0, 3, to_3              #if it is product3 then branch 
+beq $a0, 4, to_4              #if it is product4 then branch 
+beq $a0, 5, to_5              #if it is product5 then branch 
+beq $a0, 6, to_6              #if it is product6 then branch 
+beq $a0, 7, to_7              #if it is product7 then branch 
+beq $a0, 8, to_8              #if it is product8 then branch 
+j message_invalid               
+
+
+
+to_1:
+la $a0, warehouse1Arr             #store address of warehouse1Arr in $a0
+j storeR
+to_2:
+la $a0, warehouse2Arr             #store address of warehouse2Arr in $a0
+j storeR
+to_3:
+la $a0, warehouse3Arr             #store address of warehouse3Arr in $a0
+j storeR
+to_4:
+la $a0, warehouse4Arr             #store address of warehouse4Arr in $a0
+j storeR
+to_5:
+la $a0, warehouse5Arr             #store address of warehouse5Arr in $a0
+j storeR
+to_6:
+la $a0, warehouse6Arr             #store address of warehouse6Arr in $a0
+j storeR
+to_7:
+la $a0, warehouse7Arr             #store address of warehouse7Arr in $a0
+j storeR
+to_8:
+la $a0, warehouse8Arr             #store address of warehouse8Arr in $a0
+j storeR
+
+storeR:
+li $v0, 5                        #read integer
+syscall 
+
+move $s1,$v0                     
+
+bgt $s1,6,message_invalid        #since number of warehouses are 6, if the input is greater than 6 then error msg is displayed
+beqz $s1, message_invalid        #error mesage is displayed if warehouse number is input 0
+
+li $v0, 5                        #read integer
+syscall 
+
+move $s0,$v0                     #store quantity in $s0
+
+subu $t1, $s1, 1                 # to get the array element that stores number of products in the input warehouse number
+li $t4,0                         #initialise $t4 to 0 (counter)
+
+while8:
+beq $t4, $t1 , end8            	 #branch if (counter == warehouse no.) 
+addu  $t4, $t4, 1                #increment index by 1
+sll $t3, $t4, 2                  #access next element in the array
+add $a0, $a0, $t3                # $a0 contains the address of the array
+j while8                         # jump to while loop
+
+end8:
+lw $s2, 0($a0)                   # save current product amount in the input warehouse number in $s2
+add   $s2,$s2,$s0                #add the newly received product quantity
+sw $s2, 0($a0)                   #save final quantity
+j dispMenu
+
+
+S:                              #executed if user wants to ship a product from a warehouse
+li $v0, 4                       #print string 
+la $a0, ship_message
+syscall
+
+li $v0, 5                       #read integer
+syscall 
+
+move $a0,$v0			#store the value entered in $v0 to $a0
+beq $a0, 1, To_1                 #if it is product1 then branch 
+beq $a0, 2, To_2                 #if it is product2 then branch 
+beq $a0, 3, To_3                 #if it is product3 then branch 
+beq $a0, 4, To_4                 #if it is product4 then branch 
+beq $a0, 5, To_5                 #if it is product5 then branch 
+beq $a0, 6, To_6                 #if it is product6 then branch 
+beq $a0, 7, To_7                 #if it is product7 then branch 
+beq $a0, 8, To_8                 #if it is product8 then branch 
+j message_invalid                  
+
+
+
+To_1:
+la $a0, warehouse1Arr                      #store address of warehouse1Arr in $a0
+j shipping           
+To_2:
+la $a0, warehouse2Arr                      #store address of warehouse2Arr in $a0
+j shipping
+To_3:
+la $a0, warehouse3Arr                      #store address of warehouse3Arr in $a0
+j shipping
+To_4:
+la $a0, warehouse4Arr                      #store address of warehouse4Arr in $a0
+j shipping
+To_5:
+la $a0, warehouse5Arr                      #store address of warehouse5Arr in $a0
+j shipping
+To_6:
+la $a0, warehouse6Arr                      #store address of warehouse6Arr in $a0
+j shipping
+To_7:
+la $a0, warehouse7Arr                      #store address of warehouse7Arr in $a0
+j shipping
+To_8:
+la $a0, warehouse8Arr                      #store address of warehouse8Arr in $a0
+j shipping
+
+
+shipping:
+li $v0, 5                             #read integer
+syscall 
+
+move $s1,$v0  
+
+bgt $s1,6,message_invalid             #error if input warehouse number is greater than 6 
+beqz $s1, message_invalid             #error if input warehouse number is equal to 0
+
+li $v0, 5                             #read integer
+syscall 
+
+move $s0,$v0 
+
+subu $t1, $s1, 1               #to get the array element that stores number of products 
+li $t4,0                       #initialize $t4 to 0
+
+while10:
+beq $t4, $t1 , end10           #branch if counter == warehouse number
+addu  $t4, $t4, 1              #increment counter by 1
+sll $t3, $t4, 2                #access the next element in the array
+add $a0, $a0, $t3              #$a0 contains the address of the array
+j while10                      
+
+end10:
+lw $s2, 0($a0)                #save current product amount in the input warehouse number in $s2
+bgt $s0,$s2,quantity_error    #error if the shipping quantity is greater than the current product amount in the warehouse
+sub $s2,$s2,$s0   	      #subtract shipped quantity from the array
+sw $s2, 0($a0)                #save final quantity 
+j dispMenu                       
+
+
+
+T:                            #User wants to transfer a product from one warehouse to another
+li $v0, 4                     #print string
+la $a0, trans_message
+syscall
+
+li $v0, 5                     #read integer
+syscall 
+
+move $a0,$v0
+
+beq  $a0, 1,TO_1             #if it is product1 then branch 
+beq $a0, 2, TO_2             #if it is product2 then branch 
+beq $a0, 3, TO_3             #if it is product3 then branch 
+beq $a0, 4, TO_4             #if it is product4 then branch 
+beq $a0, 5, TO_5             #if it is product5 then branch 
+beq $a0, 6, TO_6             #if it is product6 then branch 
+beq $a0, 7, TO_7             #if it is product7 then branch 
+beq $a0, 8, TO_8             #if it is product8 then branch 
+j message_invalid               
+
+
+TO_1:
+la $a0, warehouse1Arr                 #store address of warehouse1Arr in $a0
+j transferProd
+TO_2:
+la $a0, warehouse2Arr                 #store address of warehouse2Arr in $a0
+j transferProd
+TO_3:
+la $a0, warehouse3Arr                 #store address of warehouse3Arr in $a0
+j transferProd
+TO_4:
+la $a0, warehouse4Arr                 #store address of warehouse4Arr in $a0
+j transferProd
+TO_5:
+la $a0, warehouse5Arr                 #store address of warehouse5Arr in $a0
+j transferProd
+TO_6:
+la $a0, warehouse6Arr                 #store address of warehouse6Arr in $a0
+j transferProd
+TO_7:
+la $a0, warehouse7Arr                 #store address of warehouse7Arr in $a0
+j transferProd
+TO_8:
+la $a0, warehouse8Arr                 #store address of warehouse8Arr in $a0
+j transferProd
+
+
+transferProd:
+la $s3,($a0)
+li $v0, 5                 	 #read integer
+syscall 
+
+move $s1,$v0  
+
+
+
+bgt $s1,6,message_invalid       #error if input warehouse number is greater than 6
+beqz $s1, message_invalid       #error if input warehouse number is zero
+
+li $v0, 5                 	#read integer
+syscall 
+
+move $s0,$v0 
+
+subu $t1, $s1, 1           	#to get the array element that stores number of products in the input warehouse number
+li $t4,0                   	#initialize $t4 to 0 
+
+doWhile:
+beq $t4, $t1 , check     	#branch if (counter == warehouse number) 
+addu  $t4, $t4, 1         	#increment counter by 1
+sll $t3, $t4, 2           	#Access the array element 
+add $a0, $a0, $t3         	#$a0 stores address  of the array
+j doWhile                     
+
+check:
+lw $s2, 0($a0)            	#save product quantity in the warehouse to $s2
+bgt $s0,$s2,quantity_error      #if product quantity to be transferred is greater than current amount, then error
+sub     $s2,$s2,$s0       	#subtract the transfered products from the warehouse
+sw $s2, 0($a0)            	#save final amount 
+
+
+li $v0, 5                 	#read integer
+syscall 
+
+move $s1,$v0  
+
+bgt $s1,6,message_invalid       #error if input warehouse number is greater than 6
+beqz $s1, message_invalid       #error if the input warehouse number is zero
+subu $t1, $s1, 1          	#to get the array element that stores number of products in the input warehouse number
+li $t4,0                 	#initialize $t4 to 0
+
+doWhile_1:
+beq $t4, $t1 , check_1    	#branch if (counter == second warehouse number) 
+addu  $t4, $t4, 1         	#increment counter
+sll $t3, $t4, 2           	#Access the array element that stores number of products in the input warehouse number
+add $s3, $s3, $t3         	# $s3 stores address of the array
+j doWhile_1                     
+
+check_1:
+lw $s2, 0($s3)            #save product quantity in the warehouse to $s2
+add     $s2,$s2,$s0       #add the number of products transferred from original warehouse to the current warehouse
+sw $s2, 0($s3)            #save final amount in the array
+j dispMenu
+
+O:                         #executed if user wants overview of the inventory
+li $v0, 4                  #print string 
+la $a0, total_quantity
+syscall
+
+li $s4,0                   #initialize $s4 to 0 (to find total cost of all products in all warehouses)
+la $t0, warehouse1Arr           #load address of array warehouse1Arr to $t0
+li $t1, 0                  #initialize $t1 to 0
+li $t2,0                   #total sum of number of products
+li $s0,0
+
+doWhile2:
+lw $s0, 0($t0)              #save product1 quantity in the warehouse to $s0
+add $t2,$t2,$s0             #add the quantity to $t2
+beq $t1, 5 , check_2        #branch if (index == 5) 
+addi $t1, $t1, 1            #increment index counter by 1
+sll $t3, $t1, 2             #access the next element in the array
+add $t0, $t0, $t3           #$t0 stores address of the array
+j doWhile2                      
+
+check_2: 
+li $v0, 4                   # print string 
+la $a0, line
+syscall
+
+li $v0, 4                   # print string
+la $a0, product1
+syscall
+
+li $v0, 1                   # print integer
+move $a0, $t2               #$t2 contains the total number of product1 in all warehouses
+syscall
+
+li $v0, 4                   #print string 
+la $a0, over_message
+syscall
+
+li $v0, 4                   #print string
+la $a0, product1
+syscall
+
+li $v0, 5                   #read integer
+syscall 
+
+move $s5,$v0
+
+mult $s5, $t2               #multiply cost of product with number of products
+mflo $s5
+li $v0, 4                   #print string
+la $a0, prod1Cost
+syscall
+
+li $v0, 1                   #print integer 
+move $a0, $s5
+syscall
+
+add $s4,$s4,$s5             #to find the total cost of all products in all warehouses
+
+la $t0, warehouse2Arr            # load address of array warehouse2Arrinto $t0
+li $t1, 0                   # initialize $t1 to 0
+li $t2,0                    #total number of products of type 2
+li $s0,0                    #total cost of all product2 in all warehouses
+
+
+
+doWhile3:
+lw $s0, 0($t0)             #save quantity of product2 in the warehouse in $s0
+add $t2,$t2,$s0            #add the value to $t2 
+beq $t1, 5 , check_3       #branch if (index == 5) 
+addi $t1, $t1, 1           #increment index
+sll $t3, $t1, 2            #Access the next element in the array
+add $t0, $t0, $t3          #$t0 stores address of the array
+j doWhile3                      
+
+check_3: 
+li $v0, 4                  #print string
+la $a0, line
+syscall
+
+li $v0, 4                  #print string
+la $a0, product2
+syscall
+
+li $v0, 1                 # print integer
+move $a0, $t2             #total quantity of product2 in all warehouses is printed
+syscall
+
+li $v0, 4                 #print string(to ask the user for the cost of product2)
+la $a0, over_message
+syscall
+
+li $v0, 4                 # print string
+la $a0, product2
+syscall
+
+li $v0, 5                 #read integer
+syscall 
+
+move $s5,$v0
+mult $s5, $t2            #multiply cost of each product with the total no. of products
+mflo $s5
+li $v0, 4                #print string
+la $a0, prod2Cost
+syscall
+
+li $v0, 1                #print integer
+move $a0, $s5
+syscall
+
+add $s4,$s4,$s5       #to find the total cost of all products in all warehouses
+
+la $t0, warehouse3Arr      #store address of array warehouse3Arr in $t0
+li $t1, 0             # initialize  $t1 to 0
+li $t2,0              #total quantity of product3
+li $s0,0
+
+doWhile4:
+lw $s0, 0($t0)       	#save quantity of product3 in the warehouse in $s0
+add $t2,$t2,$s0      	#add this value to $t2
+beq $t1, 5 , check_4 	#branch if (index == 5)
+addi $t1, $t1, 1      	#increment index by 1
+sll $t3, $t1, 2      	#Access the next element in the array
+add $t0, $t0, $t3    	#$t0 stores address of array
+j doWhile4                
+
+check_4: 
+li $v0, 4            #print string
+la $a0, line
+syscall
+
+li $v0, 4            # print string
+la $a0, product3
+syscall
+
+li $v0, 1            #print integer 
+move $a0, $t2       
+syscall
+
+li $v0, 4            # print string 
+la $a0, over_message
+syscall
+
+li $v0, 4           # print string
+la $a0, product3
+syscall
+
+li $v0, 5           #read integer 
+syscall 
+
+move $s5,$v0
+
+mult $s5, $t2       #multiply cost of each product3 with total quantity of products
+mflo $s5
+li $v0, 4           #print string
+la $a0, prod3Cost
+syscall
+
+li $v0, 1           #print integer( total cost of all product3)
+move $a0, $s5
+syscall
+
+add $s4,$s4,$s5     # to find the total cost of all products in all warehouses
+
+la $t0, warehouse4Arr    # store address of warehouse4Arr in $t0
+li $t1, 0           # initialize $t1 (index) to 0
+li $t2,0            #to find total quantity of product4
+li $s0,0
+
+doWhile5:
+lw $s0, 0($t0)     	# save quantity of product4 in first element to $s0
+add $t2,$t2,$s0    	#add this value to $t2
+beq $t1, 5 , check_5 	#branch if (index ==5)
+addi $t1, $t1, 1    	#increment index by 1
+sll $t3, $t1, 2    	#Access the next element in the array
+add $t0, $t0, $t3   	#$t0 has the address of the array
+j doWhile5               
+
+check_5: 
+li $v0, 4           #print string
+la $a0, line
+syscall
+
+li $v0, 4           #print string
+la $a0, product4
+syscall
+
+li $v0, 1           #print integer 
+move $a0, $t2
+syscall
+
+li $v0, 4           #print string 
+la $a0, over_message
+syscall
+
+li $v0, 4           #print string
+la $a0, product4
+syscall
+
+li $v0, 5           #read integer 
+syscall 
+
+move $s5,$v0
+
+mult $s5, $t2       #multiply cost of each product with total number of products
+mflo $s5
+li $v0, 4           #print string
+la $a0, prod4Cost
+syscall
+
+li $v0, 1           #print integer 
+move $a0, $s5
+syscall
+
+add $s4,$s4,$s5     #to find the total cost of all products in all warehouses
+
+la $t0, warehouse5Arr     # store the address of array warehouse5Arr to $t0
+li $t1, 0            #initialize $t1 to  0
+li $t2,0             #to find the total quantity of product5
+li $s0,0
+
+doWhile6:
+lw $s0, 0($t0)      	 #save quantity of product5 in first warehouse to $s0
+add $t2,$t2,$s0     	 #add this value to $t2
+beq $t1, 5 , check_6  	 #branch if (index == 5) 
+addi $t1, $t1, 1     	 #increment index by 1
+sll $t3, $t1, 2     	 #Access the next element in the array
+add $t0, $t0, $t3   	 #$t0 stores address of array warehouse5Arr
+j doWhile6                
+
+check_6: 
+li $v0, 4            #print string
+la $a0, line
+syscall
+
+li $v0, 4            #print string
+la $a0, product5
+syscall
+
+li $v0, 1            #print integer 
+move $a0, $t2
+syscall
+
+li $v0, 4            #print string 
+la $a0, over_message
+syscall
+
+li $v0, 4            #print string
+la $a0, product5
+syscall
+
+li $v0, 5            #read integer (cost)
+syscall 
+
+move $s5,$v0
+
+mult $s5, $t2        #multiply cost of each product with total number of products
+mflo $s5
+li $v0, 4            #print string
+la $a0, prod5Cost
+syscall
+
+li $v0, 1            #print integer (cost)
+move $a0, $s5
+syscall
+
+add $s4,$s4,$s5       #to find the total cost of all products in all warehouses
+
+la $t0, warehouse6Arr            #store address of array warehouse6Arr in $t0
+li $t1, 0             #initialize $t1 (index) to 0
+li $t2,0              #to find the total quantity of product6
+li $s0,0
+
+doWhile7:
+lw $s0, 0($t0)         #save quantity of product6 in first warehouse to $s0
+add $t2,$t2,$s0        #add this value to $t2
+beq $t1, 5 , check_7   #branch if (index == 5) 
+addi $t1, $t1, 1       #increment index by 1
+sll $t3, $t1, 2        #Access the next element in the array
+add $t0, $t0, $t3      #$t0 contains address of the first element in the array
+j doWhile7               
+
+check_7: 
+li $v0, 4             #print string
+la $a0, line
+syscall
+
+li $v0, 4             #print string
+la $a0, product6
+syscall
+
+li $v0, 1             #print integer
+move $a0, $t2
+syscall
+
+li $v0, 4             #print string (to ask user to enter cost of each product)
+la $a0, over_message
+syscall
+
+li $v0, 4             #print string
+la $a0, product6
+syscall
+
+li $v0, 5             #read integer (cost)
+syscall 
+
+move $s5,$v0 
+
+mult $s5, $t2        #multiply cost of each product with total number of products
+mflo $s5
+li $v0, 4            #print string
+la $a0, prod6Cost
+syscall
+
+li $v0, 1           #print integer (cost)
+move $a0, $s5
+syscall
+
+add $s4,$s4,$s5     #to find the total cost of all products in all warehouses
+
+la $t0, warehouse7Arr    # store address of array warehouse7Arr to $t0
+li $t1, 0           # $t1 to 0
+li $t2,0            #to find the total quantity of product7
+li $s0,0
+
+doWhile8:
+
+lw $s0, 0($t0)      	#save the quantity of product in first warehouse to $s0
+add $t2,$t2,$s0     	#add this value to $t2
+beq $t1, 5 , check_8 	#branch if (index == 5) 
+addi $t1, $t1, 1    	#increment index by 1
+sll $t3, $t1, 2     	#Access the next element in the array
+add $t0, $t0, $t3   	#$t0 has the address of the array 
+j doWhile8               	
+
+check_8: 
+li $v0, 4           	#print string
+la $a0, line
+syscall
+
+li $v0, 4           	#print string
+la $a0, product7
+syscall
+
+li $v0, 1            	#print integer
+move $a0, $t2
+syscall
+
+li $v0, 4            	#print string
+la $a0, over_message
+syscall
+
+li $v0, 4            	#print string
+la $a0, product7
+syscall
+
+li $v0, 5            	#read integer
+syscall 
+
+move $s5,$v0
+
+mult $s5, $t2         	#multiply cost of each product with total number of products
+mflo $s5
+li $v0, 4            	#print string
+la $a0, prod7Cost
+syscall
+
+li $v0, 1            	#print integer 
+move $a0, $s5
+syscall
+
+add $s4,$s4,$s5     	#to find the total cost of all products in all warehouses
+
+la $t0, warehouse8Arr        #the address of array warehouse8Arr is stored in $t0
+li $t1, 0           	#initialize $t1 to 0
+li $t2,0            	#to find the total quantity of product8 in all warehouses
+li $s0,0
+
+doWhile9:
+lw $s0, 0($t0)       	#save the quantity of product8 in first warehouse in $s0
+add $t2,$t2,$s0      	#add this value to $t2
+beq $t1, 5 , check_9  	#branch if (index == 5) 
+addi $t1, $t1, 1     	#increment index by 1
+sll $t3, $t1, 2      	#Access the next element in the array
+add $t0, $t0, $t3    	# $t0 contains the address of array
+j doWhile9                	
+
+check_9: 
+li $v0, 4            	#print string
+la $a0, line
+syscall
+
+li $v0, 4            	#print string
+la $a0, product8
+syscall
+
+li $v0, 1            	#print integer 
+move $a0, $t2
+syscall
+
+li $v0, 4            	#print string 
+la $a0, over_message
+syscall
+
+li $v0, 4             	#print string
+la $a0, product8
+syscall
+
+li $v0, 5            	#read integer
+syscall 
+
+move $s5,$v0
+
+mult $s5, $t2       	#multiply the cost of each product with total number of products
+mflo $s5
+li $v0, 4           	#print string
+la $a0, prod8Cost
+syscall
+
+li $v0, 1           	#print integer
+move $a0, $s5
+syscall
+
+add $s4,$s4,$s5    	#to find the total cost of all products in all warehouses
+j dispMenu             	#goes back to the options
+
+
+P:                 	#executed if user wants a published report onnumber of products at each warehouse
+la $t0, warehouse1Arr        #$t0 = array warehouse1Arr
+li $t1, 0          	#initialize  $t1 to 0
+li $t6, 1          	#warehouse number
+li $t2,0
+
+li $v0, 4        	#print string
+la $a0, line
+syscall
+
+li $v0, 4        	# print string
+la $a0, product1
+syscall
+
+Publishloop:
+li $v0, 4         	# print string
+la $a0, warehouse_string
+syscall
+
+li $v0, 1         	#print integer (warehouse number)
+move $a0, $t6
+syscall
+
+li $v0, 4         	#print string
+la $a0, product_par
+syscall
+
+lw $t5, 0($t0)   	# save value at the warehouse to $t5
+li $v0, 1        	#print integer 
+move $a0, $t5
+syscall
+
+beq $t1, 5 , PublishCheck	#branch if (index == 5)
+addi $t1, $t1, 1   		#increment index by 1
+addi $t6, $t6, 1   		#increment warehouse num
+sll $t3, $t1, 2   		#Access the next element in the array
+add $t0, $t0, $t3  		#$t0 contains the address of the first element in the array
+j Publishloop             	
+	
+PublishCheck:
+la $t0, warehouse2Arr          # $t0 = array warehouse2Arr
+li $t1, 0           	  #initialize $t1 to 0
+li $t6,1          	  #warehouse number
+li $t2,0
+
+li $v0, 4           	#print string
+la $a0, line
+syscall
+
+li $v0, 4               #print string
+la $a0, product2
+syscall
+
+Publishloop1:
+li $v0, 4               #print string
+la $a0, warehouse_string
+syscall
+
+li $v0, 1               #print integer
+move $a0, $t6
+syscall
+
+li $v0, 4               #print string
+la $a0, product_par
+syscall
+
+lw $t5, 0($t0)         #save quantity of product2 in wareouse to $5
+li $v0, 1              #print integer 
+move $a0, $t5
+syscall
+
+beq $t1, 5 , PublishCheck1      # branch if (index == 5) since number of warehouses is 6
+addi $t1, $t1, 1       		#Increment index by 1
+addi $t6, $t6, 1       		#increment warehouse number by 1
+sll $t3, $t1, 2       		#Access the next element in the array
+add $t0, $t0, $t3     		#$t0 contains the address of the first element in the array
+j Publishloop1              
+
+PublishCheck1:
+la $t0, warehouse3Arr      #$t0 = array warehouse3Arr
+li $t1, 0             #initialize $t1 to 1
+li $t6, 1             #warehouse number
+li $t2,0
+
+li $v0, 4             #print string
+la $a0, line
+syscall
+
+li $v0, 4             #print string
+la $a0, product3
+syscall
+
+Publishloop2:
+li $v0, 4             #print string
+la $a0, warehouse_string
+syscall
+
+li $v0, 1             #print integer 
+move $a0, $t6
+syscall
+
+li $v0, 4             #print string
+la $a0, product_par
+syscall
+
+lw $t5, 0($t0)       #save the amount ar warehouse to $t5
+li $v0, 1            #print integer 
+move $a0, $t5
+syscall
+
+beq $t1, 5 , PublishCheck2 	# branch if index == 5
+addi $t1, $t1, 1    		#increment index by 1
+addi $t6, $t6, 1    		#increment warehouse number
+sll $t3, $t1, 2    		#Access the next element in the array
+add $t0, $t0, $t3   		#$t0 contains the address of the first element in the array 
+j Publishloop2            
+
+PublishCheck2:
+la $t0, warehouse4Arr           #$t0 = array  warehouse4Arr
+li $t1, 0            	   #initialize $t1 to  0
+li $t6, 1            	   #warehouse number
+li $t2,0
+
+
+li $v0, 4          #print string
+la $a0, line
+syscall
+
+li $v0, 4          #print string
+la $a0, product4
+syscall
+
+Publishloop3:
+li $v0, 4          #print string
+la $a0, warehouse_string
+syscall
+
+li $v0, 1          #print integer
+move $a0, $t6
+syscall
+
+li $v0, 4          #print string
+la $a0, product_par
+syscall
+
+lw $t5, 0($t0)     #save the amount at warehouse to $t5
+li $v0, 1         #print integer (quantity)
+move $a0, $t5
+syscall
+
+beq $t1, 5 , PublishCheck3 	#branch if index == 5
+addi $t1, $t1, 1   		#increment index by 1
+addi $t6, $t6, 1    		#increment warehouse number by 1
+sll $t3, $t1, 2     		#Access the next element in the array
+add $t0, $t0, $t3   		#$t0 contains the address of the first element in the array
+j Publishloop3             
+
+PublishCheck3:
+la $t0, warehouse5Arr           # $t0 = array warehouse5Arr
+li $t1, 0            	   #initialize $t1 to 0
+li $t6, 1                  #warehouse number
+li $t2,0 
+
+li $v0, 4            #print string
+la $a0, line
+syscall
+
+li $v0, 4            #print string
+la $a0, product5
+syscall
+
+Publishloop4:
+li $v0, 4            #print string
+la $a0, warehouse_string
+syscall
+
+li $v0, 1            #print integer
+move $a0, $t6
+syscall
+
+li $v0, 4            #print string
+la $a0, product_par
+syscall
+
+lw $t5, 0($t0)       #save amount at warehouse to $t5
+li $v0, 1            #print integer 
+
+move $a0, $t5
+syscall
+
+beq $t1, 5 , PublishCheck4  	#branch if (index = 5) since number of warehouses is 6
+addi $t1, $t1, 1     		#increment indexx by 1
+addi $t6, $t6, 1     		#increment warehouse number by 1
+sll $t3, $t1, 2      		#Access the next element in the array 
+add $t0, $t0, $t3    		#$t0 contains the address of the first element in the array
+j Publishloop4              
+
+PublishCheck4:
+la $t0, warehouse6Arr           	 #$t0 = array warehouse6Arr
+li $t1, 0             		 #initialize  $t1 (index) to 0
+li $t6, 1             		 #warehouse number
+li $t2,0
+
+li $v0, 4            #print string
+la $a0, line
+syscall
+
+li $v0, 4            #print string
+la $a0, product6
+syscall
+
+Publishloop5:
+li $v0, 4            #print string
+la $a0, warehouse_string
+syscall
+
+li $v0, 1            #print integer 
+move $a0, $t6
+syscall
+
+li $v0, 4            #print string
+la $a0, product_par
+syscall
+
+lw $t5, 0($t0)          #save amount at warehouse to $t5
+li $v0, 1               #print integer 
+move $a0, $t5
+syscall
+
+beq $t1, 5 , PublishCheck5      # branch if (index == 5) since number of warehouses is 6
+addi $t1, $t1, 1         	#increment index by 1
+addi $t6, $t6, 1         	#increment warehouse number by 1
+sll $t3, $t1, 2          	#Access the next element in the array
+add $t0, $t0, $t3        	#$t0 contains the address of the first element in the array
+j Publishloop5                
+
+PublishCheck5:
+la $t0, warehouse7Arr                # $t0 = array warehouse7Arr
+li $t1, 0                	#initialize $t1 to 0
+li $t6, 1                	#warehosue number
+li $t2,0
+
+li $v0, 4                #print string
+la $a0, line
+syscall
+
+li $v0, 4                #print string
+la $a0, product7
+syscall
+
+Publishloop6:
+li $v0, 4                #print string
+la $a0, warehouse_string
+syscall
+
+li $v0, 1                #print integer
+move $a0, $t6
+syscall
+
+li $v0, 4                #print string
+la $a0, product_par
+syscall
+
+lw $t5, 0($t0)           # save quantity at warehouse to $t5
+li $v0, 1                #print integer 
+
+move $a0, $t5
+syscall
+
+beq $t1, 5 , PublishCheck6       # branch if (index == 5) since num of warehouses is 6
+addi $t1, $t1, 1          	 #increment index by 1
+addi $t6, $t6, 1          	 #increment warehouse num by 1
+sll $t3, $t1, 2          	 #Access the next element in the array
+add $t0, $t0, $t3                #$t0 contains the address of the first element in the array
+j Publishloop6                  
+
+PublishCheck6:
+la $t0, warehouse8Arr           # $t0 = array  warehouse8Arr
+li $t1, 0                  # initialize $t1to 0
+li $t6, 1                  #warehouse number
+li $t2,0
+
+li $v0, 4               #print string
+la $a0, line
+syscall
+
+li $v0, 4               #print string
+la $a0, product8
+syscall
+
+Publishloop7:
+li $v0, 4               #print string
+la $a0, warehouse_string
+syscall
+
+li $v0, 1               #print integer 
+move $a0, $t6
+syscall
+
+li $v0, 4               #print string
+la $a0, product_par
+syscall
+
+lw $t5, 0($t0)           # save quantity at warehouse to $t5
+li $v0, 1                # print integer
+move $a0, $t5
+syscall
+
+beq $t1, 5 , dispMenu      	#branch if (index== 5) 
+addi $t1, $t1, 1         	#increment index by 1
+addi $t6, $t6, 1         	#increment warehouse num by 1
+sll $t3, $t1, 2          	#Access the next element in the array
+add $t0, $t0, $t3        	#$t0 contains the address of the first element in the array
+j Publishloop7                  
+j dispMenu                   
+
+
+message_invalid:
+li $v0, 4                #showing the error message
+la $a0, error
+syscall
+j dispMenu               #going back to the options
+
+quantity_error:
+li $v0, 4                #showing the error message
+la $a0, errorLess
+syscall
+j dispMenu 
+
+exit:
+li $v0,10                #exits the program
+syscall
